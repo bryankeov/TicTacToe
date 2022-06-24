@@ -10,6 +10,21 @@
 </head>
 <body>
   <h1>Tic Tac Toe</h1>
+  <button class="change-player-details">Change Player's Details</button>
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <div class="close">&times;</div>
+      <form id="player-form">
+        <div class="player-container">Player 1</div>
+        <input class="name" placeholder="Player 1 Name">
+        <input class="symbol" placeholder="Player 1 Symbol">
+        <div class="player-container">Player 2</div>
+        <input class="name" placeholder="Player 2 Name">
+        <input class="symbol" placeholder="Player 2 Symbol"><br>
+        <button id="player-submit" onclick="playerSubmitForm()">Submit</button>
+      </form>
+    </div>
+  </div>
   <div class="container"></div>
 </body>
 </html>
