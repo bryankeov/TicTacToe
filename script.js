@@ -44,22 +44,22 @@ const gameFlow = (() => {
     let tempIndex = event.target.getAttribute('data-index');
     let index = parseInt(tempIndex);
     
-    if(gameBoard.player1.turn === true  //Check whose turn
+    if(players.player1.turn === true  //Check whose turn
       && previousWinner === null
       && event.target.innerHTML == '') { //Check if square is empty
-        event.target.innerHTML = gameBoard.player1.symbol; //Place player move
-        gameBoard.player1.turn = false;
-        gameBoard.player2.turn = true;
+        event.target.innerHTML = players.player1.symbol; //Place player move
+        players.player1.turn = false;
+        players.player2.turn = true;
         p1Moves.push(index);
         p1Moves.sort(function(a, b){return a - b});
         playedTurns += 1;
 
-      } else if(gameBoard.player2.turn === true
+      } else if(players.player2.turn === true
         && previousWinner === null
         && event.target.innerHTML == '') {
-          event.target.innerHTML = gameBoard.player2.symbol;
-          gameBoard.player1.turn = true;
-          gameBoard.player2.turn = false;
+          event.target.innerHTML = players.player2.symbol;
+          players.player1.turn = true;
+          players.player2.turn = false;
           p2Moves.push(index);
           p2Moves.sort(function(a, b){return a - b});
           playedTurns += 1;
@@ -83,15 +83,18 @@ const gameFlow = (() => {
   }
 })();
 
+function player(name, symbol, turn) {
+  return {name, symbol, turn};
+}
+
+
 const players = (() => {   //Players object
   const playerForm = document.getElementById('player-form');
   const modal = document.getElementById('modal');
   const changePlayerButton = document.getElementsByClassName('change-player-details')[0];
   const closeButton = document.getElementsByClassName('close')[0];
-  
-  function player(name, symbol, turn) {
-    return {name, symbol, turn};
-  }
+  const submitButton = document.getElementById('player-submit');
+
 
   function playerSubmitForm() {
     playerForm.addEventListener('submit', event => {
@@ -99,14 +102,20 @@ const players = (() => {   //Players object
       const player1Symbol = document.getElementsByClassName('symbol')[0].value;
       const player2Name = document.getElementsByClassName('name')[1].value;
       const player2Symbol = document.getElementsByClassName('symbol')[1].value;
-
-      modal.style.display = 'none';
       event.preventDefault();
-
-      const player1 = player(player1Name, player1Symbol, true);
-      const player2 = player(player2Name, player2Symbol, false);
-      
+      return {player1Name, player1Symbol, player2Name, player2Symbol};
     });
+  }
+
+  let player1 = player(playerSubmitForm.player1Name, playerSubmitForm.player1Symbol, true);
+  let player2 = player(playerSubmitForm.player2Name, playerSubmitForm.player2Symbol, false);
+
+console.log(player1)
+
+  
+  submitButton.onclick = function() {
+    modal.style.display = 'none';
+    playerSubmitForm();
   }
 
   // When the user clicks the button, open the modal 
@@ -125,4 +134,5 @@ const players = (() => {   //Players object
       modal.style.display = "none";
     }
   }
+  return {player1, player2}
 })();

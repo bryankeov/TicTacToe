@@ -1,6 +1,8 @@
 body {
   margin: 0px;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
+  display: flex;
+  flex-direction: column;
 }
 
 h1 {
@@ -55,4 +57,9 @@ h1 {
   height: 250px;
   border-radius: 30px;
   text-align: center;
+}
+
+#display-container {
+  display: flex;
+  justify-content: center;
 }
