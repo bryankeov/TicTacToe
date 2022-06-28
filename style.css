@@ -35,7 +35,7 @@ h1 {
 }
 
 .modal {
-  display: none;
+  display: block;
   position: fixed;
   z-index: 1;
   padding-top: 100px;
@@ -62,4 +62,11 @@ h1 {
 #display-container {
   display: flex;
   justify-content: center;
+  height: 20px;
+  width: 800px;
+  background-color: lightblue;
+}
+
+.player {
+  font-size: large;
 }

@@ -16,48 +16,23 @@ const gameBoard = (() => {
 
 //Players object
 const players = (() => {
-  const playerForm = document.getElementById('player-form');
   const modal = document.getElementById('modal');
-  const changePlayerButton = document.getElementsByClassName('change-player-details')[0];
   const closeButton = document.getElementsByClassName('close')[0];
   const submitButton = document.getElementById('player-submit');
 
   function player(name, symbol, turn) {
     return {name, symbol, turn};
   }
-
-  function playerSubmitForm() {
-    playerForm.addEventListener('submit', e => {
-      const player1Name = document.getElementsByClassName('name')[0].value;
-      const player1Symbol = document.getElementsByClassName('symbol')[0].value;
-      const player2Name = document.getElementsByClassName('name')[1].value;
-      const player2Symbol = document.getElementsByClassName('symbol')[1].value;
-      
-      console.log(player1Name)
-      e.preventDefault();
-      return {
-        player1Name,
-        player1Symbol,
-        player2Name,
-        player2Symbol
-      }
-    });
-  }
-
-  let player1 = player(playerSubmitForm.player1Name, playerSubmitForm.player1Symbol, true);
-  let player2 = player(playerSubmitForm.player2Name, playerSubmitForm.player2Symbol, false);
-
-  console.log(player1)
   
+  const player1Name = document.getElementsByClassName('name')[0].value;
+  const player2Name = document.getElementsByClassName('name')[1].value;
 
   submitButton.onclick = function() {
     modal.style.display = 'none';
-    playerSubmitForm()
-  }
-
-  // When the user clicks the button, open the modal 
-  changePlayerButton.onclick = function() {
-    modal.style.display = 'block';
+    let player1Display = document.getElementsByClassName('player')[0];
+    let player2Display = document.getElementsByClassName('player')[1];
+    player1Display.innerHTML = player1Name;
+    player2Display.innerHTML = player2Name;
   }
 
   // When the user clicks on <span> (x), close the modal
@@ -73,9 +48,8 @@ const players = (() => {
   }
   return {
     player,
-    playerSubmitForm,
-    player1,
-    player2
+    player1Name,
+    player2Name
   }
 })();
 
@@ -96,24 +70,24 @@ const gameFlow = (() => {
   let p2Moves = [];
   let playedTurns = 0;
   let previousWinner = null;
-  let result = '';
+  let display = document.getElementsByClassName('result-display')[0].innerText;
   let squares = document.getElementsByClassName('square');
 
   for(let i = 0; i < squares.length; i++) {
     squares[i].addEventListener('click', playMove, true);
   }
 
-  let player1 = players.player1;
-  let player2 = players.player2;
+  let player1 = players.player(players.player1Name, 'X', true);
+  let player2 = players.player(players.player2Name, 'X', false);
+  console.log(player1, player1.name)
+
 
   if(player1.name == undefined) {
     player1.name = 'Player 1';
-    player1.symbol = 'X';
   }
 
   if(player2.name == undefined) {
     player2.name = 'Player 2';
-    player2.symbol = 'O';
   }
 
   function playMove() {
@@ -149,20 +123,22 @@ const gameFlow = (() => {
         p1Win = winSquares[i].filter(item => p1Moves.includes(item));
         p2Win = winSquares[i].filter(item => p2Moves.includes(item));
         if(p1Win.length == 3) {
-          result = 'Player 1 Wins!';
-          console.log(result);
+          display = 'Player 1 Wins!';
+          console.log('Player 1 Wins!');
           for(let i = 0; i < squares.length; i++) {
             squares[i].removeEventListener('click', playMove, true);
           }
         } else if(p2Win.length == 3) {
-          result = 'Player 2 Wins!';
+          display = 'Player 2 Wins!';
+          console.log('Player 2 Wins!');
           for(let i = 0; i < squares.length; i++) {
             squares[i].removeEventListener('click', playMove, true);
           }
         }
       }
     } else if(playedTurns === 9) {
-      result = 'Draw';
+      display = 'Draw';
+      console.log('Draw');
       for(let i = 0; i < squares.length; i++) {
         squares[i].removeEventListener('click', playMove, true);
       }
@@ -186,24 +162,7 @@ function newGame() {
     }
 }
 return {
-  result,
-  newGame
+  display,
+  newGame,
 };
 })();
-
-
-
-
-
-
-const displayController = (() => {
-  const display = document.getElementsByClassName('result-display')[0];
-  const player1Display = document.getElementsByClassName('player')[0];
-  const player2Display = document.getElementsByClassName('player')[1];
-  
-  display.value = "gameFlow.result";
-  player1Display.innerHTML = "players.player1";
-  player2Display.textContent = "players.player2";
-
-console.log(display, player1Display, player2Display)
-});
