@@ -11,22 +11,23 @@
 <body>
   <h1>Tic Tac Toe</h1>
   <button class="change-player-details">Change Player's Details</button>
+  <button class="reset">New Game</button>
   <div id="display-container">
-    <div class="player1">Player 1</div>
-    <div class="result-display">XXX</div>
-    <div class="player2">Player 2</div>
+    <div class="player"></div>
+    <div class="result-display"></div>
+    <div class="player"></div>
   </div>
   <div class="modal" id="modal">
     <div class="modal-content">
       <div class="close">&times;</div>
-      <form id="player-form" name="player-form">
+      <form id="player-form" name="player-form" onsubmit="return false">
         <div class="player-container">Player 1</div>
         <input type="text" class="name" placeholder="Player 1 Name">
         <input type="text" class="symbol" placeholder="Player 1 Symbol">
         <div class="player-container">Player 2</div>
         <input type="text" class="name" placeholder="Player 2 Name">
         <input type="text" class="symbol" placeholder="Player 2 Symbol"><br>
-        <button id="player-submit">Submit</button>
+        <button type="submit" id="player-submit">Submit</button>
       </form>
     </div>
   </div>
